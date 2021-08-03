@@ -58,7 +58,7 @@ class List {
 
     editItem(listPrefix) {
         const $list = document.querySelector(`.${listPrefix}__list`);
-        $list.addEventListener('click', (e) => {
+        $list.addEventListener('click', e => {
             if (e.target.classList.contains('edit')) {
                 const $item = e.target.parentElement;
                 const id = +$item.dataset.id;
@@ -87,7 +87,7 @@ class List {
                 this.showPopUp($form);
 
                 $form.addEventListener('submit', event => {
-                    e.preventDefault();
+                    event.preventDefault();
                     const inputs = event.target.querySelectorAll('input:not([type="submit"])');
                     const $messageDiv = document.querySelector('.note');
                     inputs.forEach(input => {
