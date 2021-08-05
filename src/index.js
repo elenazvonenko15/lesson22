@@ -20,7 +20,7 @@ class List {
 
         const $itemContent = document.createElement('div');
         $itemContent.classList.add(`${listPrefix}__content`);
-        $itemContent.innerHTML = this.generateItemTemplate(valuesObject);
+        $itemContent.innerHTML = this.createItem(valuesObject);
 
         const $itemDelete = document.createElement('span');
         $itemDelete.classList.add('delete');
@@ -99,13 +99,13 @@ class List {
                         }
                     });
 
-                    $item.querySelector(`.${listPrefix}__content`).innerHTML = this.generateItemTemplate(currentItem);
+                    $item.querySelector(`.${listPrefix}__content`).innerHTML = this.createItem(currentItem);
                 });
             }
         });
     }
 
-    generateItemTemplate(valuesObject) {
+    createItem = (valuesObject) => {
         let template = '';
         for (const key in valuesObject) {
             template += `${key}: ${valuesObject[key]} `;
@@ -113,7 +113,7 @@ class List {
         return template;
     }
 
-    showPopUp(content) {
+    showPopUp = (content) => {
         const $modal = document.querySelector('.modal');
         $modal.style.display = 'block';
         document.body.classList.add('body_hidden');
@@ -121,7 +121,7 @@ class List {
         $content.prepend(content);
     }
 
-    closePopUp() {
+    closePopUp = () => {
         const $modal = document.querySelector('.modal');
         const $close = document.querySelector('.popup__close');
         $close.addEventListener('click', () => {
@@ -145,10 +145,11 @@ class ToDoList extends List {
     }
 
     addItem(valuesObject, listPrefix) {
+        const $error = document.querySelector('.error');
         if (this.isNotUnique(valuesObject)) {
-            const $error = document.querySelector('.error');
             $error.innerHTML = 'Please enter a unique value';
         } else {
+            $error.innerHTML = '';
             Object.defineProperty(valuesObject, 'completed', {
                 enumerable: false,
                 configurable: true,
@@ -161,9 +162,7 @@ class ToDoList extends List {
         }
     }
 
-    generateItemTemplate(valuesObject) {
-        return `${valuesObject.title}: ${valuesObject.text}`;
-    }
+    createItem = (valuesObject) => `${valuesObject.title}: ${valuesObject.text}`;
 
     isCompleted(listPrefix) {
         const $list = document.querySelector(`.${listPrefix}`);
@@ -183,7 +182,7 @@ class ToDoList extends List {
         });
     }
 
-    isNotUnique({title, text}) {
+    isNotUnique({ title, text }) {
         const note = this.items.find(item => item.title === title || item.text === text);
         return !!note;
     }
@@ -219,9 +218,7 @@ class ContactList extends List {
         $form.reset();
     }
 
-    generateItemTemplate(valuesObject) {
-        return `<span>${valuesObject.name} ${valuesObject.surname} (${valuesObject.phone})</span>`;
-    }
+    createItem = (valuesObject) => `<span>${valuesObject.name} ${valuesObject.surname} (${valuesObject.phone})</span>`;
 
     findContact(listPrefix) {
         const $list = document.querySelector(`.${listPrefix}`);
@@ -260,7 +257,7 @@ class ContactList extends List {
                     });
 
                     results.forEach(element => {
-                        $result.innerHTML += this.generateItemTemplate(element);
+                        $result.innerHTML += this.createItem(element);
                     });
                 });
             }
