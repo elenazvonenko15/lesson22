@@ -20,7 +20,7 @@ class List {
 
         const $itemContent = document.createElement('div');
         $itemContent.classList.add(`${listPrefix}__content`);
-        $itemContent.innerHTML = this.createItem(valuesObject);
+        $itemContent.innerHTML = this.createItemTemplate(valuesObject);
 
         const $itemDelete = document.createElement('span');
         $itemDelete.classList.add('delete');
@@ -99,13 +99,13 @@ class List {
                         }
                     });
 
-                    $item.querySelector(`.${listPrefix}__content`).innerHTML = this.createItem(currentItem);
+                    $item.querySelector(`.${listPrefix}__content`).innerHTML = this.createItemTemplate(currentItem);
                 });
             }
         });
     }
 
-    createItem = (valuesObject) => {
+    createItemTemplate = (valuesObject) => {
         let template = '';
         for (const key in valuesObject) {
             template += `${key}: ${valuesObject[key]} `;
@@ -162,7 +162,7 @@ class ToDoList extends List {
         }
     }
 
-    createItem = (valuesObject) => `${valuesObject.title}: ${valuesObject.text}`;
+    createItemTemplate = (valuesObject) => `${valuesObject.title}: ${valuesObject.text}`;
 
     isCompleted(listPrefix) {
         const $list = document.querySelector(`.${listPrefix}`);
@@ -218,7 +218,7 @@ class ContactList extends List {
         $form.reset();
     }
 
-    createItem = (valuesObject) => `<span>${valuesObject.name} ${valuesObject.surname} (${valuesObject.phone})</span>`;
+    createItemTemplate = (valuesObject) => `<span>${valuesObject.name} ${valuesObject.surname} (${valuesObject.phone})</span>`;
 
     findContact(listPrefix) {
         const $list = document.querySelector(`.${listPrefix}`);
@@ -257,7 +257,7 @@ class ContactList extends List {
                     });
 
                     results.forEach(element => {
-                        $result.innerHTML += this.createItem(element);
+                        $result.innerHTML += this.createItemTemplate(element);
                     });
                 });
             }
